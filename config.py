@@ -11,7 +11,7 @@ class Config(object):
     API_HASH = os.environ.get("API_HASH", "b2aea0b75ceca34bf5333107ac526c02")
 
     # Array to store users who are authorized to use the bot
-    AUTH_USERS = set(int(x) for x in os.environ.get("AUTH_USERS", "ii321").split())
+    AUTH_USERS = set(int(x) for x in os.environ.get("AUTH_USERS", "887108671").split())
 
     # Bot User Name With Out @
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "ii321")
