@@ -14,7 +14,7 @@ class Config(object):
     AUTH_USERS = set(int(x) for x in os.environ.get("AUTH_USERS", "887108671").split())
 
     # Bot User Name With Out @
-    BOT_USERNAME = os.environ.get("BOT_USERNAME", "ii321")
+    BOT_USERNAME = os.environ.get("BOT_USERNAME", "G3X55bot")
 
     # the download location, where the HTTP Server runs
     DOWNLOAD_LOCATION = "./DOWNLOADS"
@@ -23,7 +23,7 @@ class Config(object):
     TG_MAX_FILE_SIZE = 2097152000
 
     # chunk size that should be used with requests
-    CHUNK_SIZE = 10
+    CHUNK_SIZE = 128
 
     # Generate screenshots for file after uploading
     # Defaults to True
