@@ -14,10 +14,7 @@ import time
 from PIL import Image
 from datetime import datetime
 
-if bool(os.environ.get("WEBHOOK", False)):
-    from sample_config import Config
-else:
-    from config import Config
+from config import Config
 
 from translation import Translation
 
@@ -66,7 +63,7 @@ async def ddl_call_back(bot, update):
         chat_id=update.message.chat.id,
         message_id=update.message.message_id
     )
-    tmp_directory_for_each_user = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id)
+    tmp_directory_for_each_user = f"{Config.DOWNLOAD_LOCATION}/{update.from_user.id}/{update.message.message_id}"
     if not os.path.isdir(tmp_directory_for_each_user):
         os.makedirs(tmp_directory_for_each_user)
     download_directory = tmp_directory_for_each_user + "/" + custom_file_name
