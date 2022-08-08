@@ -10,10 +10,7 @@ import os
 import shutil
 import time
 
-if bool(os.environ.get("WEBHOOK", False)):
-    from sample_config import Config
-else:
-    from config import Config
+from config import Config
 
 from datetime import datetime
 from hachoir.parser import createParser
@@ -93,9 +90,9 @@ async def youtube_dl_call_back(bot, update):
     description = Translation.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
         description = response_json["fulltitle"][0:1021]
-    tmp_directory_for_each_user = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id)
-    if not os.path.isdir(tmp_directory_for_each_user):
-        os.makedirs(tmp_directory_for_each_user)
+    tmp_directory_for_each_user = f"{Config.DOWNLOAD_LOCATION}/{update.from_user.id}/{update.message.message_id}"
+
+    os.makedirs(tmp_directory_for_each_user, exist_ok=True)
     download_directory = tmp_directory_for_each_user + "/" + custom_file_name
     command_to_exec = []
     if tg_send_type == "audio":
@@ -123,9 +120,7 @@ async def youtube_dl_call_back(bot, update):
             "--hls-prefer-ffmpeg", youtube_dl_url,
             "-o", download_directory
         ]
-    if Config.HTTP_PROXY != "":
-        command_to_exec.append("--proxy")
-        command_to_exec.append(Config.HTTP_PROXY)
+
     if youtube_dl_username is not None:
         command_to_exec.append("--username")
         command_to_exec.append(youtube_dl_username)
@@ -146,8 +141,7 @@ async def youtube_dl_call_back(bot, update):
     stdout, stderr = await process.communicate()
     e_response = stderr.decode().strip()
     t_response = stdout.decode().strip()
-    # logger.info(e_response)
-    # logger.info(t_response)
+
     ad_string_to_replace = "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output."
     if e_response and ad_string_to_replace in e_response:
         error_message = e_response.replace(ad_string_to_replace, "")
@@ -240,9 +234,6 @@ async def youtube_dl_call_back(bot, update):
                     caption=description,
                     parse_mode="HTML",
                     duration=duration,
-                    # performer=response_json["uploader"],
-                    # title=response_json["title"],
-                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('⚙ Join Updates Channel ⚙', url='https://telegram.me/Mo_Tech_YT')]]),
                     thumb=thumb_image_path,
                     progress=progress_for_pyrogram,
                     progress_args=(
@@ -259,7 +250,6 @@ async def youtube_dl_call_back(bot, update):
                     thumb=thumb_image_path,
                     caption=description,
                     parse_mode="HTML",
-                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('⚙ Join Updates Channel ⚙', url='https://telegram.me/FayasNoushad')]]),
                     reply_to_message_id=update.message.reply_to_message.message_id,
                     progress=progress_for_pyrogram,
                     progress_args=(
@@ -296,7 +286,6 @@ async def youtube_dl_call_back(bot, update):
                     width=width,
                     height=height,
                     supports_streaming=True,
-                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('⚙ Join Updates Channel ⚙', url='https://telegram.me/FayasNoushad')]]),
                     thumb=thumb_image_path,
                     reply_to_message_id=update.message.reply_to_message.message_id,
                     progress=progress_for_pyrogram,
