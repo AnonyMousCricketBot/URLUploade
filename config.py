@@ -46,7 +46,7 @@ class Config(object):
     MAX_MESSAGE_LENGTH = 4096
 
     # set timeout for subprocess
-    PROCESS_MAX_TIMEOUT = int(os.environ.get("TIME_LIMIT"))
+    PROCESS_MAX_TIMEOUT = int(os.environ.get("TIME_LIMIT",3600))
     
     # dict to hold the ReQuest queue
     ADL_BOT_RQ = {}
@@ -55,5 +55,5 @@ class Config(object):
     DEF_WATER_MARK_FILE = ""
 
     # Sql Database url
-    DB_URI = os.environ.get("DATABASE_URL", "postgresql://postgres:dP3esuGMhlnsYxJfmy8X@containers-us-west-50.railway.app:7049/railway")
+    DB_URI = os.environ.get("DATABASE_URL", "postgres://bkezixht:ix7xdKfVV1BLR7uhAYg_Gob1rdI90fWv@arjuna.db.elephantsql.com/bkezixht")
     
